@@ -1,0 +1,32 @@
+name: Create Release on Tag Push
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger release on any push with a version tag (e.g., v1.0.0)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python (for zipping)
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install zip
+      run: sudo apt-get install zip
+
+    - name: Create Update ZIP file
+      run: |
+        # Adjust this to the directory where your updated files are
+        zip -r update.zip /path/to/your/updated-files
+        
+    - name: Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: update.zip
