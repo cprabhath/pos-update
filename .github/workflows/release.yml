@@ -23,10 +23,10 @@ jobs:
 
     - name: Create Update ZIP file
       run: |
-        # Adjust this to the directory where your updated files are
-        zip -r update.zip /path/to/your/updated-files
+        VERSION_TAG=$(echo "${GITHUB_REF}" | sed 's/refs\/tags\///')
+        zip -r "pos_update_${VERSION_TAG}.zip"
         
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v1
       with:
-        files: update.zip
+        files: "pos_update_${VERSION_TAG}.zip" 
